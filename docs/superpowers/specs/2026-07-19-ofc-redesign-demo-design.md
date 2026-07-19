@@ -172,7 +172,8 @@ WCAG-adjusted premium palette instead.
 | Surface | `#FAFAF9` | `#1C1917` |
 | Accent | `#A16207` (amber-700) | `#F59E0B` (amber-500) |
 | Body text | `#0C0A09` | `#FAFAF9` |
-| Border | `#D6D3D1` | — |
+| Border (decorative) | `#D6D3D1` | — |
+| Border (interactive) | `#78716C` | — |
 | Destructive | `#DC2626` | `#DC2626` |
 
 **Two accent tokens, deliberately.** Contrast ratios computed with the WCAG 2.x
@@ -190,6 +191,20 @@ relative-luminance formula, not estimated:
 Amber-700 is safe for any use on light surfaces. On dark surfaces it drops to
 3.55:1 and fails body copy, so dark surfaces switch to amber-500. A single amber
 token would silently fail WCAG on every dark section of the page.
+
+**Two border tokens, for the same reason.** WCAG 1.4.11 requires 3:1 for UI
+component boundaries — the edges that let a user identify a form control — but
+exempts purely decorative dividers.
+
+| Token | Value | Ratio on `#FAFAF9` | Use |
+|---|---|---|---|
+| `--color-border` | `#D6D3D1` | 1.43:1 | Decorative only: section rules, card top borders, table separators. Exempt, ungated. |
+| `--color-border-strong` | `#78716C` | 4.59:1 | Every interactive boundary: inputs, selects, textareas. Gated at 3:1. |
+
+`#D6D3D1` must never appear on a form control. The contrast script lists that
+pairing as forbidden so the mistake fails loudly rather than shipping a form
+whose fields have a 1.43:1 edge — which would undercut the accessibility
+argument the whole demo rests on.
 
 The verification script lives at `scripts/contrast-check.py` and must be re-run
 whenever a token changes.

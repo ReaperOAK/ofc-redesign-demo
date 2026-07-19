@@ -31,10 +31,17 @@ Every task's requirements implicitly include this section.
 | Surface | `#FAFAF9` | `#1C1917` |
 | Accent | `#A16207` | `#F59E0B` |
 | Body text | `#0C0A09` | `#FAFAF9` |
-| Border | `#D6D3D1` | — |
+| Border (decorative) | `#D6D3D1` | — |
+| Border (interactive) | `#78716C` | — |
 | Destructive | `#DC2626` | `#DC2626` |
 
 **Accent rule:** `#A16207` on light surfaces only (4.71:1). `#F59E0B` on dark surfaces only (8.14:1). Never `#A16207` on `#1C1917` — that is 3.55:1 and fails body text.
+
+**Border rule:** two tokens, because WCAG 1.4.11 draws a line these must respect.
+- `--color-border` `#D6D3D1` (1.43:1) — decorative only: section rules, card top borders, table row separators. Exempt from 1.4.11, which covers UI components and meaningful graphics, not decorative dividers. NOT gated.
+- `--color-border-strong` `#78716C` (4.59:1) — every interactive boundary: form inputs, selects, textareas. These are UI component boundaries and DO require 3:1. Gated.
+
+Never use `--color-border` on a form control.
 
 **Typography:** Newsreader (display), Public Sans (body), JetBrains Mono (technical labels, uppercase, wide tracking). Self-hosted, `font-display: swap`.
 
@@ -111,6 +118,7 @@ Create `src/styles/global.css`:
   --color-body: #0C0A09;
   --color-body-dark: #FAFAF9;
   --color-border: #D6D3D1;
+  --color-border-strong: #78716C;
   --color-destructive: #DC2626;
 
   --font-display: "Newsreader", ui-serif, Georgia, serif;
@@ -196,12 +204,17 @@ PAIRS = [
     ("#0C0A09", "#F59E0B", 4.5, "text on amber button"),
     ("#0C0A09", "#FAFAF9", 4.5, "body on light surface"),
     ("#FAFAF9", "#1C1917", 4.5, "body on dark surface"),
-    ("#D6D3D1", "#FAFAF9", 3.0, "border on light surface"),
+    # Interactive boundaries (form inputs) are UI components under WCAG 1.4.11
+    # and require 3:1. Decorative dividers are exempt and are NOT listed here.
+    ("#78716C", "#FAFAF9", 3.0, "interactive border on light surface"),
 ]
 
 # Pairs that MUST NOT be used together, reported so anyone reaching for the
-# wrong accent on a dark background sees why it is forbidden.
-FORBIDDEN = [("#A16207", "#1C1917", "amber-700 on dark — use #F59E0B")]
+# wrong token sees why it is forbidden.
+FORBIDDEN = [
+    ("#A16207", "#1C1917", "amber-700 on dark — use #F59E0B"),
+    ("#D6D3D1", "#FAFAF9", "decorative border on a form control — use #78716C"),
+]
 
 failed = False
 
@@ -229,7 +242,9 @@ print("\nContrast gate passed")
 python3 scripts/contrast-check.py; echo "exit=$?"
 ```
 
-Expected: six `PASS` lines, one `NOTE` line reading `3.55:1  forbidden pairing`, then `Contrast gate passed` and `exit=0`.
+Expected: six `PASS` lines, then two `NOTE` lines — `3.55:1  forbidden pairing — amber-700 on dark` and `1.43:1  forbidden pairing — decorative border on a form control` — then `Contrast gate passed` and `exit=0`.
+
+The 1.43:1 NOTE is correct and expected. `#D6D3D1` is a decorative divider colour, exempt from WCAG 1.4.11; it is listed as forbidden precisely so nobody reaches for it on a form control.
 
 - [ ] **Step 6: Verify the gate actually fails when it should**
 
@@ -1575,7 +1590,7 @@ if (!endpoint) {
             </label>
             <input
               id="name" name="name" type="text" required autocomplete="name"
-              class="mt-2 min-h-11 w-full border border-[var(--color-border)] bg-white px-4 py-3"
+              class="mt-2 min-h-11 w-full border border-[var(--color-border-strong)] bg-white px-4 py-3"
             />
           </div>
 
@@ -1586,7 +1601,7 @@ if (!endpoint) {
             <input
               id="email" name="email" type="email" required autocomplete="email"
               aria-describedby="email-help"
-              class="mt-2 min-h-11 w-full border border-[var(--color-border)] bg-white px-4 py-3"
+              class="mt-2 min-h-11 w-full border border-[var(--color-border-strong)] bg-white px-4 py-3"
             />
             <p id="email-help" class="mt-2 text-xs opacity-70">
               We reply to enquiries within two working days.
@@ -1597,7 +1612,7 @@ if (!endpoint) {
             <label for="company" class="label-mono block">Company</label>
             <input
               id="company" name="company" type="text" autocomplete="organization"
-              class="mt-2 min-h-11 w-full border border-[var(--color-border)] bg-white px-4 py-3"
+              class="mt-2 min-h-11 w-full border border-[var(--color-border-strong)] bg-white px-4 py-3"
             />
           </div>
 
@@ -1605,7 +1620,7 @@ if (!endpoint) {
             <label for="area" class="label-mono block">Area of interest</label>
             <select
               id="area" name="area"
-              class="mt-2 min-h-11 w-full border border-[var(--color-border)] bg-white px-4 py-3"
+              class="mt-2 min-h-11 w-full border border-[var(--color-border-strong)] bg-white px-4 py-3"
             >
               <option value="dairy">Dairy Industry</option>
               <option value="food">Food Industry</option>
@@ -1620,7 +1635,7 @@ if (!endpoint) {
             </label>
             <textarea
               id="message" name="message" rows="6" required
-              class="mt-2 w-full border border-[var(--color-border)] bg-white px-4 py-3"
+              class="mt-2 w-full border border-[var(--color-border-strong)] bg-white px-4 py-3"
             ></textarea>
           </div>
 
