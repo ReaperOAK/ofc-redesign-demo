@@ -1,7 +1,90 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Button from "../components/Button.astro";
+import StatBlock from "../components/StatBlock.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import { DIFFERENTIATORS } from "../data/differentiators";
+
+const services = (await getCollection("services")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const caseStudies = (await getCollection("caseStudies")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 ---
 
-<BaseLayout title="Home" description="Expert food and beverage consulting.">
-  <h1 class="mx-auto max-w-6xl px-6 py-24 font-display text-5xl">Shell test</h1>
+<BaseLayout
+  title="Food & Beverage Consulting"
+  description="Overseas Food Consultants provides expert technical guidance in food safety, formula optimisation, shelf-life prediction, and regulatory compliance."
+>
+  <Hero />
+
+  <Section tone="light">
+    <SectionHeading eyebrow="Track record" title="Measured outcomes, not claims" />
+    <div class="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <StatBlock value="15%" label="production cost reduced" />
+      <StatBlock value="5" label="formulas developed" />
+      <StatBlock value="HACCP" label="plans certified" />
+      <StatBlock value="4" label="sectors served" />
+    </div>
+  </Section>
+
+  <Section tone="dark">
+    <SectionHeading eyebrow="Consultancy" title="Three areas of technical practice" tone="dark" />
+    <div class="mt-12 grid gap-12 md:grid-cols-3">
+      {services.map((s, i) => (
+        <ServiceCard
+          title={s.data.title}
+          summary={s.data.summary}
+          capabilities={s.data.capabilities}
+          href="/consultancy"
+          index={i + 1}
+        />
+      ))}
+    </div>
+  </Section>
+
+  <Section tone="light">
+    <SectionHeading eyebrow="Why us" title="What clients cannot build in-house" />
+    <div class="mt-12 grid gap-10 md:grid-cols-2">
+      {DIFFERENTIATORS.map((d) => (
+        <div class="border-t border-[var(--color-border)] pt-6">
+          <h3 class="font-display text-xl">{d.title}</h3>
+          <p class="mt-3 max-w-prose text-sm leading-relaxed opacity-80">{d.body}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section tone="light">
+    <SectionHeading eyebrow="Case studies" title="Selected engagements" />
+    <ul class="mt-12 grid gap-10 md:grid-cols-2">
+      {caseStudies.map((c) => (
+        <li class="border-t border-[var(--color-border)] pt-6">
+          <p class="label-mono text-accent">{c.data.sector}</p>
+          <h3 class="mt-3 font-display text-xl">{c.data.title}</h3>
+          <p class="mt-3 max-w-prose text-sm leading-relaxed opacity-80">{c.data.summary}</p>
+        </li>
+      ))}
+    </ul>
+    <div class="mt-12">
+      <Button href="/case-studies">Read the case studies</Button>
+    </div>
+  </Section>
+
+  <Section tone="dark">
+    <SectionHeading eyebrow="Get started" title="Tell us what you are trying to solve" tone="dark" />
+    <p class="mt-5 max-w-2xl leading-relaxed opacity-90">
+      Whether you need a single consultant or a tailored team, we match you with the
+      expertise required. You pay only for the services you need, precisely when you
+      need them.
+    </p>
+    <div class="mt-10">
+      <Button href="/contact" tone="dark">Request a consultation</Button>
+    </div>
+  </Section>
 </BaseLayout>
