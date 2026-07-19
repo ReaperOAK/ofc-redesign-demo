@@ -30,12 +30,17 @@ PAIRS = [
     ("#0C0A09", "#F59E0B", 4.5, "text on amber button"),
     ("#0C0A09", "#FAFAF9", 4.5, "body on light surface"),
     ("#FAFAF9", "#1C1917", 4.5, "body on dark surface"),
-    ("#D6D3D1", "#FAFAF9", 3.0, "border on light surface"),
+    # Interactive boundaries (form inputs) are UI components under WCAG 1.4.11
+    # and require 3:1. Decorative dividers are exempt and are NOT listed here.
+    ("#78716C", "#FAFAF9", 3.0, "interactive border on light surface"),
 ]
 
 # Pairs that MUST NOT be used together, reported so anyone reaching for the
 # wrong accent on a dark background sees why it is forbidden.
-FORBIDDEN = [("#A16207", "#1C1917", "amber-700 on dark — use #F59E0B")]
+FORBIDDEN = [
+    ("#A16207", "#1C1917", "amber-700 on dark — use #F59E0B"),
+    ("#D6D3D1", "#FAFAF9", "decorative border on a form control — use #78716C"),
+]
 
 failed = False
 
