@@ -10,16 +10,25 @@ const { title, summary, capabilities, href, index } = Astro.props;
 const num = String(index).padStart(2, "0");
 ---
 
-<article class="border-t border-current/20 pt-6">
+<!--
+  Flex column filling the grid cell so every card's link lands on the row's
+  bottom edge regardless of title length or capability count. Without this,
+  the card with the longest heading pushes its link down and the row loses
+  its baseline.
+-->
+<article class="flex h-full flex-col border-t border-current/20 pt-6">
   <p class="label-mono opacity-70">{num}</p>
-  <h3 class="mt-3 font-display text-2xl">{title}</h3>
+  <h3 class="mt-3 text-balance font-display text-2xl">{title}</h3>
   <p class="mt-3 max-w-prose text-sm leading-relaxed opacity-80">{summary}</p>
   <ul class="mt-5 space-y-2">
     {capabilities.map((c) => (
       <li class="text-sm leading-relaxed opacity-90">{c}</li>
     ))}
   </ul>
-  <a href={href} class="label-mono mt-6 inline-block underline underline-offset-4">
+  <a
+    href={href}
+    class="label-mono mt-auto self-start text-balance pt-8 underline underline-offset-4"
+  >
     View {title} services
   </a>
 </article>

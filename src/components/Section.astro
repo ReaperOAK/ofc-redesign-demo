@@ -10,7 +10,13 @@ const toneClass =
     : "bg-surface text-[var(--color-body)]";
 ---
 
-<section id={id} class={toneClass}>
+<!--
+  data-tone lets global.css collapse the seam between two consecutive
+  sections of the SAME tone, which would otherwise stack two full vertical
+  paddings and read as dead space. A tone CHANGE keeps both paddings —
+  there the space is doing work.
+-->
+<section id={id} class={toneClass} data-tone={tone}>
   <div class="mx-auto max-w-6xl px-6 py-20 md:py-28">
     <slot />
   </div>

@@ -49,6 +49,18 @@
 }
 
 /* Technical label treatment — the "Editorial Lab" signature */
+/*
+  Two consecutive sections of the same tone stack two full vertical paddings,
+  which reads as dead space rather than rhythm — there is no colour change to
+  justify the gap. Collapse the seam by dropping the second section's top
+  padding. A tone CHANGE keeps both paddings intact, because there the space
+  is separating two visually distinct bands.
+*/
+section[data-tone="light"] + section[data-tone="light"] > div,
+section[data-tone="dark"] + section[data-tone="dark"] > div {
+  padding-top: 0;
+}
+
 .label-mono {
   font-family: var(--font-mono);
   font-size: 0.75rem;
