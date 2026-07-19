@@ -3,7 +3,7 @@ export const SITE = {
   legalName: "Overseas Food Consultants (OPC) Private Limited",
   tagline: "Your Source for Food Experts",
   subTagline: "Elevating Your Food Business",
-  url: "https://ofc-demo.vercel.app",
+  url: "https://ofc-redesign.vercel.app",
   address: "Haryana, India",
   registration:
     "Registered under the Companies Act 2013, Ministry of Corporate Affairs, Government of India",
