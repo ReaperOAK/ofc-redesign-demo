@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-base: #1C1917;
+  --color-surface: #FAFAF9;
+  --color-surface-dark: #1C1917;
+  --color-accent: #A16207;
+  --color-accent-dark: #F59E0B;
+  --color-body: #0C0A09;
+  --color-body-dark: #FAFAF9;
+  --color-border: #D6D3D1;
+  --color-destructive: #DC2626;
+
+  --font-display: "Newsreader", ui-serif, Georgia, serif;
+  --font-body: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-body);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Technical label treatment — the "Editorial Lab" signature */
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
