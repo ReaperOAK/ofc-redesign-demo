@@ -1,0 +1,123 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+
+// Every `after` value is a real measured score from Task 11 (Lighthouse,
+// measured 2026-07-19). The build check in Step 5 fails if any placeholder
+// survives.
+const scores = [
+  { label: "Accessibility", before: "87", after: "100" },
+  { label: "Agentic Browsing", before: "50", after: "100" },
+  { label: "SEO", before: "100", after: "100" },
+  { label: "Best Practices", before: "96", after: "100" },
+];
+
+const defects = [
+  {
+    audit: "color-contrast",
+    problem: "Text fails the WCAG minimum contrast ratio.",
+    fix: "Every token pair verified by script. Two accent tokens, one for light surfaces and one for dark.",
+  },
+  {
+    audit: "heading-order",
+    problem: "Heading levels skip, breaking screen-reader navigation.",
+    fix: "Sequential headings enforced by an automated gate on every page.",
+  },
+  {
+    audit: "link-name",
+    problem: "Links with no discernible name. Screen readers announce dead ends.",
+    fix: "Every link names its destination, including when read out of context.",
+  },
+  {
+    audit: "listitem",
+    problem: "List items sit outside any list parent — invalid HTML.",
+    fix: "All lists use semantic ul and li elements.",
+  },
+  {
+    audit: "image-aspect-ratio",
+    problem: "Images render distorted against their intrinsic dimensions.",
+    fix: "Explicit dimensions on every image, served as AVIF at the correct ratio.",
+  },
+  {
+    audit: "agent-accessibility-tree",
+    problem: "Malformed accessibility tree. AI assistants cannot parse the site.",
+    fix: "Proper landmarks, a skip link, and ProfessionalService structured data.",
+  },
+];
+---
+
+<BaseLayout title="Before and After" description="Comparison of the current site against the redesign.">
+  <Section tone="dark">
+    <p class="label-mono text-accent-dark">Comparison</p>
+    <h1 class="mt-3 max-w-3xl font-display text-4xl leading-tight md:text-5xl">
+      What changed, and why it matters
+    </h1>
+    <p class="mt-6 max-w-2xl leading-relaxed opacity-90">
+      The current site is technically well built. Its problems are not speed — they
+      are accessibility, machine readability, and the fact that its strongest proof is
+      buried near the bottom of the page.
+    </p>
+  </Section>
+
+  <Section tone="light">
+    <h2 class="font-display text-3xl">Side by side</h2>
+    <div class="mt-10 grid gap-8 md:grid-cols-2">
+      <figure>
+        <figcaption class="label-mono text-accent">Current</figcaption>
+        <img
+          src="/images/before-home.jpg"
+          alt="The current Overseas Food Consultants homepage, showing two empty bordered boxes where images failed to load."
+          width="1425" height="4629" loading="lazy"
+          class="mt-4 w-full border border-[var(--color-border)]"
+        />
+      </figure>
+      <figure>
+        <figcaption class="label-mono text-accent">Redesign</figcaption>
+        <img
+          src="/images/after-home.jpg"
+          alt="The redesigned homepage, with a photographic hero, a statistics band, and three clearly separated service areas."
+          width="1440" height="4024" loading="lazy"
+          class="mt-4 w-full border border-[var(--color-border)]"
+        />
+      </figure>
+    </div>
+  </Section>
+
+  <Section tone="light">
+    <h2 class="font-display text-3xl">Measured scores</h2>
+    <table class="mt-8 w-full max-w-2xl border-collapse text-left">
+      <caption class="sr-only">
+        Lighthouse category scores, current site compared with the redesign
+      </caption>
+      <thead>
+        <tr class="border-b border-[var(--color-border)]">
+          <th scope="col" class="label-mono py-3">Category</th>
+          <th scope="col" class="label-mono py-3">Current</th>
+          <th scope="col" class="label-mono py-3">Redesign</th>
+        </tr>
+      </thead>
+      <tbody>
+        {scores.map((s) => (
+          <tr class="border-b border-[var(--color-border)]">
+            <th scope="row" class="py-4 font-normal">{s.label}</th>
+            <td class="py-4 tabular-nums opacity-70">{s.before}</td>
+            <td class="py-4 font-display text-xl tabular-nums text-accent">{s.after}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </Section>
+
+  <Section tone="light">
+    <h2 class="font-display text-3xl">Six defects, fixed</h2>
+    <ul class="mt-10 grid gap-8">
+      {defects.map((d) => (
+        <li class="border-t border-[var(--color-border)] pt-6">
+          <p class="label-mono text-accent">{d.audit}</p>
+          <p class="mt-3 font-display text-lg">{d.problem}</p>
+          <p class="mt-2 max-w-prose text-sm leading-relaxed opacity-80">{d.fix}</p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+</BaseLayout>
