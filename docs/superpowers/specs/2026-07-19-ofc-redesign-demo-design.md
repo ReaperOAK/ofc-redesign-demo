@@ -319,15 +319,31 @@ revise. Bounded iterations. Not a single pass declared finished.
 
 ---
 
-## 9. Open questions
+## 9. Risk position and open questions
 
-1. **Commercial terms.** Owais's cut is unagreed. The agency proposed that Owais
-   "help a little" while they build; the actual decision is that Owais drives the
-   build. This must be settled before implementation starts, not after the client
-   approves.
+**Downside is covered.** The build deploys to Owais's own Vercel account. If the
+client drops the project or the agency arrangement falls apart, the work becomes
+a portfolio piece for future clients. Commercial terms with the agency are
+therefore not a blocker on starting, and the five-page scope is justified —
+portfolio value comes from depth, and a three-page stub does not demonstrate
+range.
+
+This also raises the quality bar. A demo only has to beat the client's current
+site. A portfolio piece has to stand on its own in front of strangers, which is
+the standard section 7 is written to.
+
+### Open questions
+
+1. **Portfolio attribution.** If published as a portfolio piece, label it clearly
+   as an unsolicited concept redesign. Do not present it in a way that implies
+   OFC commissioned or endorsed the work. Concept redesigns are standard practice
+   and this is a labelling matter, not a legal obstacle — but the labelling has
+   to actually be there.
 2. **Domain for the demo.** Vercel subdomain, or something closer to the client's
    brand.
-3. **Photography licence.** Stock is acceptable for the demo. Production use
-   requires either licensed stock or a shoot — priced separately in the quotation.
+3. **Photography licence.** Stock is acceptable for the demo. Portfolio and
+   production use both require a licence permitting it — verify before publishing,
+   since a portfolio piece is public and indefinite where a private demo link is
+   not. A production shoot is priced separately in the quotation.
 4. **Who sends the quotation.** The client asked for it by email to himself. The
    agency owns that relationship.
