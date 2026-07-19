@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Button from "../components/Button.astro";
+import StatBlock from "../components/StatBlock.astro";
+---
+
+<BaseLayout title="Primitives" description="Internal component test page.">
+  <h1 class="sr-only">Primitives test</h1>
+  <Section tone="light">
+    <SectionHeading eyebrow="Light section" title="Light tone heading" />
+    <StatBlock value="15%" label="cost reduction" />
+    <Button href="/contact">Light CTA</Button>
+  </Section>
+  <Section tone="dark">
+    <SectionHeading eyebrow="Dark section" title="Dark tone heading" tone="dark" />
+    <StatBlock value="4" label="client sectors" tone="dark" />
+    <Button href="/contact" tone="dark">Dark CTA</Button>
+  </Section>
+</BaseLayout>

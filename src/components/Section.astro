@@ -1,0 +1,17 @@
+---
+interface Props {
+  tone?: "light" | "dark";
+  id?: string;
+}
+const { tone = "light", id } = Astro.props;
+const toneClass =
+  tone === "dark"
+    ? "bg-[var(--color-surface-dark)] text-[var(--color-body-dark)]"
+    : "bg-surface text-[var(--color-body)]";
+---
+
+<section id={id} class={toneClass}>
+  <div class="mx-auto max-w-6xl px-6 py-20 md:py-28">
+    <slot />
+  </div>
+</section>

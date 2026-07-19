@@ -1,0 +1,14 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  level?: 2 | 3;
+  tone?: "light" | "dark";
+}
+const { eyebrow, title, level = 2, tone = "light" } = Astro.props;
+const Tag = `h${level}`;
+const eyebrowClass = tone === "dark" ? "text-accent-dark" : "text-accent";
+---
+
+{eyebrow && <p class={`label-mono ${eyebrowClass}`}>{eyebrow}</p>}
+<Tag class="mt-3 max-w-3xl font-display text-3xl leading-tight md:text-4xl">{title}</Tag>

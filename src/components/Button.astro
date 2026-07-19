@@ -1,0 +1,26 @@
+---
+interface Props {
+  href: string;
+  tone?: "light" | "dark";
+  variant?: "solid" | "ghost";
+}
+const { href, tone = "light", variant = "solid" } = Astro.props;
+
+const solid =
+  tone === "dark"
+    ? "bg-[var(--color-accent-dark)] text-[var(--color-body)]"
+    : "bg-[var(--color-accent)] text-[var(--color-surface)]";
+const ghost =
+  tone === "dark"
+    ? "border border-[var(--color-accent-dark)] text-[var(--color-accent-dark)]"
+    : "border border-[var(--color-accent)] text-[var(--color-accent)]";
+
+const classes = variant === "solid" ? solid : ghost;
+---
+
+<a
+  href={href}
+  class={`inline-flex min-h-11 items-center gap-2 px-6 py-3 text-sm font-medium transition-opacity duration-200 hover:opacity-90 ${classes}`}
+>
+  <slot />
+</a>
