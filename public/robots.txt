@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# The before/after comparison is a pitch asset, not part of the site.
+# It reproduces a screenshot of the client's current homepage and should
+# not be indexed or surfaced in search.
+Disallow: /comparison
+
+Sitemap: https://ofc-redesign.vercel.app/sitemap-index.xml
