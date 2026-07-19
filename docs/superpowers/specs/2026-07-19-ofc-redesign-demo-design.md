@@ -175,15 +175,24 @@ WCAG-adjusted premium palette instead.
 | Border | `#D6D3D1` | — |
 | Destructive | `#DC2626` | `#DC2626` |
 
-**Two accent tokens, deliberately.** Measured contrast ratios:
+**Two accent tokens, deliberately.** Contrast ratios computed with the WCAG 2.x
+relative-luminance formula, not estimated:
 
-- `#A16207` on `#FAFAF9` → **3.58:1**. Passes 3:1 for large text and UI chrome,
-  fails 4.5:1 for body copy. Restricted to headings, rules, and icons.
-- `#A16207` on `#1C1917` → **3.58:1**. Too low for a dark-surface CTA.
-- `#F59E0B` on `#1C1917` → **8.25:1**. Used for all dark-surface accents.
-- `#0C0A09` on `#F59E0B` → **9.78:1**. Used for amber CTA buttons.
+| Foreground | Background | Ratio | Body (4.5:1) | Large/UI (3:1) |
+|---|---|---|---|---|
+| `#A16207` | `#FAFAF9` | 4.71:1 | PASS | PASS |
+| `#A16207` | `#1C1917` | 3.55:1 | **FAIL** | PASS |
+| `#F59E0B` | `#1C1917` | 8.14:1 | PASS | PASS |
+| `#0C0A09` | `#F59E0B` | 9.20:1 | PASS | PASS |
+| `#0C0A09` | `#FAFAF9` | 18.92:1 | PASS | PASS |
+| `#FAFAF9` | `#1C1917` | 16.74:1 | PASS | PASS |
 
-A single amber token would silently fail WCAG across roughly half the page.
+Amber-700 is safe for any use on light surfaces. On dark surfaces it drops to
+3.55:1 and fails body copy, so dark surfaces switch to amber-500. A single amber
+token would silently fail WCAG on every dark section of the page.
+
+The verification script lives at `scripts/contrast-check.py` and must be re-run
+whenever a token changes.
 
 Warm stone plus amber also reads as grain, caramelisation, and oil without
 resorting to literal food-brand orange.
@@ -246,7 +255,7 @@ Five pages.
 
 Plus one non-navigable **before/after comparison page**, unlisted, used only in
 the pitch. Shows the current homepage beside the redesign, and lists the six
-audit failures with their fixes.
+Lighthouse audit failures from section 2 alongside their fixes.
 
 ### Out of scope
 
@@ -271,9 +280,11 @@ Every gate must pass before the URL is sent to the client.
 - Visible focus rings on all interactive elements
 - Full keyboard navigation, skip-to-content link
 - `prefers-reduced-motion` respected
-- Agentic Browsing score raised from 50 toward 100
+- Agentic Browsing score ≥ 90, up from 50
 
-**Performance**
+**Performance** — these are build gates, not pitch material. Section 2 rules out
+performance as a sales argument; the site must still not regress against a
+baseline the client could check himself.
 - CLS < 0.1 (currently 0.00 — must not regress)
 - All images AVIF/WebP with explicit dimensions
 - Lazy-load below the fold
